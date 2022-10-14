@@ -1,4 +1,4 @@
-function PTC_characteristics = quantify_PTC_characteristics(patient_dir, mask_dir)
+function PTC_characteristics = quantify_PTC_characteristics(patient_dir, PTC_dir)
 
 folders = dir(patient_dir);
 
@@ -29,23 +29,22 @@ for i = 3:length(folders)
                 %folder_name = strsplit(PTC_masks(i).name,'[');
                 
                 
-                if ~isempty(dir(['Z:\yxc627\glom_output_1009\',filename_PTC]))
+                if ~isempty(dir([patient_dir,folders(i).name,'/',filename_PTC]))
                     
                     
                     %load PTC mask
-                    PTC_mask = im2bw(imread([mask_dir,filename_PTC]));
+                    PTC_mask = im2bw(imread([PTC_dir,,'/',filename_PTC]));
                     
                     %load cortex mask
-                    cortex_mask = im2bw(imread(['Z:\yxc627\IFTA_tiles_multi_channel\',folder_name, '/' filename_cortex],4));
+                    cortex_mask = im2bw(imread([patient_dir,folder_name, '/' filename_cortex]));
                     
                     PTC_mask = PTC_mask & cortex_mask;
                     
                     
                     %load glom mask to mask out glomeruli capillary false
                     %positives if there are any
-                    glom_mask = imfill(imresize(im2bw(imread(['Z:\yxc627\glom_output_1009\',filename_PTC])),2),'holes');
-                    glom_mask = bwareaopen(glom_mask, 1500);
                     
+                    glom_mask = imfill(imresize(im2bw(imread(['Z:\yxc627\glom_masks\',filename_PTC])),2),'holes');
                     
                     if length(glom_mask) == length(PTC_mask)
                         PTC_mask = PTC_mask & ~glom_mask;
