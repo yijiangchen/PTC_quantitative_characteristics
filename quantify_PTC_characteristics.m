@@ -59,9 +59,9 @@ for i = 3:length(folders)
                 %calculate PTC shape and size characteristics
                 RP = regionprops(PTC_normal,"MinorAxisLength","MajorAxisLength","area");
                 
-                for j = 1:length(RP)
-                    Size(end+1) = RP(j).Area;
-                    AR(end+1) =  (RP(j).MajorAxisLength)/(RP(j).MinorAxisLength);
+                for jj = 1:length(RP)
+                    Size(end+1) = RP(jj).Area;
+                    AR(end+1) =  (RP(jj).MajorAxisLength)/(RP(jj).MinorAxisLength);
                 end
             end
             
